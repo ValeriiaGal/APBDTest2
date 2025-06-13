@@ -7,98 +7,83 @@ public class AppDbContext : DbContext
 {
     public AppDbContext()
     {
-        
     }
+
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
     }
 
 
-    public DbSet<CarManufacturer> CarManufacturers { get; set; }
-    public DbSet<Driver> Drivers { get; set; }
-    public DbSet<Car> Cars { get; set; }
-    public DbSet<Competition> Competitions { get; set; }
-    public DbSet<DriverCompetition> DriverCompetitions { get; set; }
+    public DbSet<Language> Languages { get; set; }
+    public DbSet<Tasks> Tasks { get; set; }
+    public DbSet<Student> Students { get; set; }
+    public DbSet<Record> Records { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        // DRIVER
-        modelBuilder.Entity<Driver>(entity =>
-        {
-            entity.HasKey(d => d.Id);
+        modelBuilder.Entity<Language>()
+            .HasKey(l => l.Id);
 
-            entity.Property(d => d.FirstName)
-                .HasMaxLength(200)
-                .IsRequired();
+        modelBuilder.Entity<Language>()
+            .Property(l => l.Name)
+            .HasMaxLength(100)
+            .IsRequired();
 
-            entity.Property(d => d.LastName)
-                .HasMaxLength(200)
-                .IsRequired();
+        modelBuilder.Entity<Task>()
+            .HasKey(t => t.Id);
 
-            entity.Property(d => d.Birthday)
-                .HasColumnType("datetime2")
-                .IsRequired();
+        modelBuilder.Entity<Tasks>()
+            .Property(t => t.Name)
+            .HasMaxLength(100)
+            .IsRequired();
 
-            entity.HasOne(d => d.Car)
-                .WithMany()
-                .HasForeignKey(d => d.CarId)
-                .IsRequired();
-        });
+        modelBuilder.Entity<Tasks>()
+            .Property(t => t.Description)
+            .HasMaxLength(2000);
 
-        // CAR
-        modelBuilder.Entity<Car>(entity =>
-        {
-            entity.HasKey(c => c.Id);
+        modelBuilder.Entity<Student>()
+            .HasKey(s => s.Id);
 
-            entity.Property(c => c.ModelName)
-                .HasMaxLength(200)
-                .IsRequired();
+        modelBuilder.Entity<Student>()
+            .Property(s => s.FirstName)
+            .HasMaxLength(100)
+            .IsRequired();
 
-            entity.Property(c => c.Number)
-                .IsRequired();
+        modelBuilder.Entity<Student>()
+            .Property(s => s.LastName)
+            .HasMaxLength(100)
+            .IsRequired();
 
-            entity.HasOne(c => c.CarManufacture)
-                .WithMany()
-                .HasForeignKey(c => c.CarManufactureId)
-                .IsRequired();
-        });
+        modelBuilder.Entity<Student>()
+            .Property(s => s.Email)
+            .HasMaxLength(250)
+            .IsRequired();
 
-        // CAR MANUFACTURER
-        modelBuilder.Entity<CarManufacturer>(entity =>
-        {
-            entity.HasKey(cm => cm.Id);
+        modelBuilder.Entity<Record>()
+            .HasKey(r => r.Id);
 
-            entity.Property(cm => cm.Name)
-                .HasMaxLength(200)
-                .IsRequired();
-        });
+        modelBuilder.Entity<Record>()
+            .HasOne(r => r.Language)
+            .WithMany(l => l.Records)
+            .HasForeignKey(r => r.LanguageId);
 
-        // COMPETITION
-        modelBuilder.Entity<Competition>(entity =>
-        {
-            entity.HasKey(c => c.Id);
+        modelBuilder.Entity<Record>()
+            .HasOne(r => r.Tasks)
+            .WithMany(t => t.Records)
+            .HasForeignKey(r => r.TaskId);
 
-            entity.Property(c => c.Name)
-                .HasMaxLength(200)
-                .IsRequired();
-        });
+        modelBuilder.Entity<Record>()
+            .HasOne(r => r.Student)
+            .WithMany(s => s.Records)
+            .HasForeignKey(r => r.StudentId);
 
-        // DRIVER-COMPETITION
-        modelBuilder.Entity<DriverCompetition>(entity =>
-        {
-            entity.HasKey(dc => new { dc.DriverId, dc.CompetitionId });
+        modelBuilder.Entity<Record>()
+            .Property(r => r.ExecutionTime)
+            .IsRequired();
 
-            entity.Property(dc => dc.Date)
-                .HasColumnType("datetime2")
-                .IsRequired();
-
-            entity.HasOne(dc => dc.Driver)
-                .WithMany(d => d.DriverCompetitions)
-                .HasForeignKey(dc => dc.DriverId);
-
-            entity.HasOne(dc => dc.Competition)
-                .WithMany(c => c.DriverCompetitions)
-                .HasForeignKey(dc => dc.CompetitionId);
-        });
+        modelBuilder.Entity<Record>()
+            .Property(r => r.CreatedAt)
+            .HasColumnType("datetime2")
+            .IsRequired();
     }
 }

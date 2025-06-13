@@ -8,7 +8,7 @@ public class Record
     public Language Language { get; set; }
 
     public int TaskId { get; set; }
-    public Task Task { get; set; }
+    public Tasks Tasks { get; set; }
 
     public int StudentId { get; set; }
     public Student Student { get; set; }

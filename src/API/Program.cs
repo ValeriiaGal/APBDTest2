@@ -11,7 +11,7 @@ builder.Services.AddDbContext<AppDbContext>(opt =>
  {
     opt.UseSqlServer(cfg.GetConnectionString("UniversityDatabase"));
  });
-builder.Services.AddScoped<IService, Service>();
+builder.Services.AddScoped<IRecordService, RecordService>();
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())

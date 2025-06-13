@@ -4,16 +4,19 @@ using Services;
 namespace API;
 
 [ApiController]
-public class Controller(IService service) : ControllerBase
+public class Controller(IRecordService recordService) : ControllerBase
 {
     [HttpGet]
-    [Route("/")]
-    public async Task<IActionResult> Get()
+    [Route("/api/records")]
+    public async Task<IActionResult> GetRecords(
+        [FromQuery] DateTime? fromDate,
+        [FromQuery] int? languageId,
+        [FromQuery] int? taskId)
     {
         try
         {
-            var drivers = await service.Get();
-            return Ok(drivers);
+            var records = await recordService.GetRecordsAsync(fromDate, languageId, taskId);
+            return Ok(records);
         }
         catch (Exception e)
         {
