@@ -15,12 +15,12 @@ public class RecordService : IRecordService
     }
 
 
-    public Task<IEnumerable<RecordResponseDto>> GetRecordsAsync(DateTime? fromDate, int? languageId, int? taskId)
+    public async Task<IEnumerable<RecordResponseDto>> GetRecordsAsync(DateTime? fromDate, int? languageId, int? taskId)
     {
         throw new NotImplementedException();
     }
 
-    public Task<(bool Success, string? ErrorMessage)> AddRecordAsync(AddRecordRequestDto dto)
+    public async Task AddRecordAsync(AddRecordRequestDto dto)
     {
         throw new NotImplementedException();
     }
