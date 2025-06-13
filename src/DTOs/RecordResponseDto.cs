@@ -7,5 +7,5 @@ public class RecordResponseDto
     public TaskDto Task { get; set; }
     public StudentDto Student { get; set; }
     public long ExecutionTime { get; set; }
-    public string Created { get; set; }
+    public DateTime Created { get; set; }
 }

@@ -6,5 +6,5 @@ public class AddRecordRequestDto
     public int StudentId { get; set; }
     public TaskDto Task { get; set; }
     public long ExecutionTime { get; set; }
-    public string Created { get; set; }
+    public DateTime Created { get; set; }
 }
