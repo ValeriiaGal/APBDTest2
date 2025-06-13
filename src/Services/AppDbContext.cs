@@ -29,7 +29,7 @@ public class AppDbContext : DbContext
             .HasMaxLength(100)
             .IsRequired();
 
-        modelBuilder.Entity<Task>()
+        modelBuilder.Entity<Tasks>()
             .HasKey(t => t.Id);
 
         modelBuilder.Entity<Tasks>()
