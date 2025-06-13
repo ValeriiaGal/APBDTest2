@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Services;
 
 var builder = WebApplication.CreateBuilder(args);
 var cfg = builder.Configuration;
@@ -6,12 +7,11 @@ var cfg = builder.Configuration;
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-//builder.Services.AddDbContext<AppDbContext>(opt =>
-// {
-//    // opt.UseSqlServer(cfg.GetConnectionString("UniversityDatabase"));
-// });
-//builder.Services.AddScoped<IDriverService, DriverService>();
-//builder.Services.AddScoped<ICompetitionService, CompetitionService>();
+builder.Services.AddDbContext<AppDbContext>(opt =>
+ {
+    opt.UseSqlServer(cfg.GetConnectionString("UniversityDatabase"));
+ });
+builder.Services.AddScoped<IService, Service>();
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
