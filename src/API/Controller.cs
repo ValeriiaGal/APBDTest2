@@ -9,7 +9,7 @@ namespace API;
 public class Controller(IRecordService recordService) : ControllerBase
 {
     [HttpGet("/api/records")]
-    public async Task<ActionResult<IEnumerable<Record>>> GetRecords(
+    public async Task<ActionResult<List<RecordResponseDto>>> GetRecords(
         [FromQuery] DateTime? fromDate,
         [FromQuery] int? languageId,
         [FromQuery] int? taskId)
